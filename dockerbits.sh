@@ -138,4 +138,34 @@ for i in TEST.AccessionDirectoryQueue TEST.AnonymousImageQueue TEST.DLQueue TEST
 do
   rabbitmqadmin declare queue name=$i
 done
+for i in TEST.AccessionDirectoryExchange TEST.AnonymousImageExchange TEST.ControlExchange TEST.ExtractedFileStatusExchange TEST.ExtractedFileVerifiedExchange TEST.ExtractFileExchange TEST.FatalLoggingExchange TEST.FileCollectionInfoExchange TEST.IdentifiableImageExchange TEST.IdentifiableSeriesExchange TEST.RequestExchange TEST.RequestInfoExchange TEST.TriggerUpdatesExchange
+do
+  rabbitmqadmin declareexchange $i
+done
 kill -TERM `jobs -p`
+
+wget -O/smi/ctp.script https://github.com/SMI/SmiServices/blob/master/data/ctp/ctp-whitelist.script
+cat > /smi.yaml <<EOY
+jobs:
+- "/opt/mssql/bin/sqlservr"
+- "/usr/bin/mongod"
+- "/usr/bin/redis-server"
+- "/usr/sbin/mysqld"
+- "/usr/sbin/rabbitmq-server"
+- "wait"
+- "/usr/bin/java -jar /smi/smi-nerd-v1.15.1.jar"
+- "/usr/bin/java -jar /smi/CTPAnonymiser-portable-1.0.0.jar -a /smi/ctp.script -y /smi.yaml"
+- "DicomRelationalMapper -y /smi.yaml"
+- "IsIdentifiable -y /smi.yaml"
+- "CohortExtractor -y /smi.yaml"
+- "DicomTagReader -y /smi.yaml"
+- "MongoDbPopulator -y /smi.yaml"
+- "CohortPackager -y /smi.yaml"
+- "FileCopier -y /smi.yaml"
+- "DicomReprocessor -y /smi.yaml"
+- "IdentifierMapper -y /smi.yaml"
+- "DeadLetterReprocessor -y /smi.yaml"
+- "UpdateValues -y /smi.yaml"
+
+EOY
+cat /smi/default.yaml >> /smi.yaml
