@@ -17,8 +17,9 @@ docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp
 	$(eval ctr1:=$(shell buildah from docker://docker.io/debian:latest))
 	buildah copy "$(ctr1)" smiinit /bin/
 	buildah copy "$(ctr1)" $(HOME)/rdmp-cli /rdmp-cli
-	buildah copy "$(ctr1)" $(JARS) dist/v1.15.1/smi-services-v1.15.1-linux-x64/ /rdmp-cli
+	buildah copy "$(ctr1)" $(JARS) dist/v1.15.1/smi-services-v1.15.1-linux-x64/ /smi
 	buildah run "$(ctr1)" -- bash < dockerbits.sh 2>&1 | tee dockerbuild.log
+	buildah config --cmd "/bin/smiinit -f /smi.yaml" "$(ctr1)"
 
 $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 	[ -e $@ ] || unzip -DD -d $(HOME)/rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"
