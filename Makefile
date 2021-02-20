@@ -9,8 +9,8 @@ all:	$(BINS)
 
 publish:	docker
 	echo $(DOCKERPW) | buildah login -u $(DOCKERU) --password-stdin docker.io
-	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 	buildah commit "$(ctr1)" "jas88/smi"
+	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 
 docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp
 	curl -L https://github.com/SMI/SmiServices/releases/download/$(SMIV)/smi-services-$(SMIV)-linux-x64.tgz | tar xzf -
