@@ -4,6 +4,7 @@ JARS	:= extractorcli-1.0.0/ExtractorCL-portable-1.0.0.jar ctpanonymiser-1.0.0/CT
 BINS	:=	smiinit
 CXXFLAGS	:= -Wall -Wextra -O2 --std=c++11 -Iyaml-cpp/include
 
+UNAME	:= $(shell uname)
 
 all:	$(BINS)
 
@@ -45,7 +46,11 @@ smi-nerd-$(SMIV).jar:
 
 
 smiinit:	smiinit.cpp yaml-cpp/build/libyaml-cpp.a
+ifeq ($(UNAME), Darwin)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+else
 	$(CXX) -static -s $(CXXFLAGS) -o $@ $^
+endif
 
 yaml-cpp/build/libyaml-cpp.a:
 	mkdir -p yaml-cpp/build
