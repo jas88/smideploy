@@ -140,7 +140,7 @@ do
 done
 for i in TEST.AccessionDirectoryExchange TEST.AnonymousImageExchange TEST.ControlExchange TEST.ExtractedFileStatusExchange TEST.ExtractedFileVerifiedExchange TEST.ExtractFileExchange TEST.FatalLoggingExchange TEST.FileCollectionInfoExchange TEST.IdentifiableImageExchange TEST.IdentifiableSeriesExchange TEST.RequestExchange TEST.RequestInfoExchange TEST.TriggerUpdatesExchange
 do
-  rabbitmqadmin declareexchange $i
+  rabbitmqadmin declare exchange name=$i type=direct
 done
 kill -TERM `jobs -p`
 
