@@ -102,6 +102,7 @@ static int init(const char *conffile, const char **env) {
 
 static int help(char *name) {
     fprintf(stderr, "Usage:\t%s [switches]\n"
+                   "\t-c <dir> \tChange to directory\n"
                    "\t-d       \tDebug\n"
                    "\t-f <file>\tUse the specified YAML configuration file\n"
                    "\t-h       \tPrint help text and exit\n"
@@ -160,8 +161,14 @@ int main(int argc, char * const *argv, const char **env) {
     YAML::Node config;
     int option;
 
-    while ((option=getopt(argc, argv, "df:hv")) != -1) {
+    while ((option=getopt(argc, argv, "c:df:hv")) != -1) {
         switch (option) {
+            case 'c':
+                if (chdir(optarg)==-1) {
+                    perror("chdir");
+                    return 1;
+                }
+                break;
             case 'd':
                 debug++;
                 break;
