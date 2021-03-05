@@ -127,6 +127,7 @@ sleep 10
 mongo --eval 'rs.initiate()'
 kill -TERM `jobs -p`
 
+echo "NODENAME=rabbit@localhost" > /etc/rabbitmq/rabbitmq-env.conf
 mkdir -p /var/lib/rabbitmq
 chown -R rabbitmq:rabbitmq /var/lib/rabbitmq
 rabbitmq-server &
@@ -134,14 +135,7 @@ sleep 15
 rabbitmq-plugins enable rabbitmq_management < /dev/null
 wget -O/bin/rabbitmqadmin http://127.0.0.1:15672/cli/rabbitmqadmin
 chmod +x /bin/rabbitmqadmin
-for i in TEST.AccessionDirectoryQueue TEST.AnonymousImageQueue TEST.DLQueue TEST.ExtractFileAnonQueue TEST.ExtractFileIdentQueue TEST.ExtractedFileNoVerifyQueue TEST.ExtractedFileToVerifyQueue TEST.ExtractedFileVerifiedQueue TEST.FileCollectionInfoQueue TEST.IdentifiableImageQueue TEST.MongoImageQueue TEST.MongoSeriesQueue TEST.RequestInfoQueue TEST.RequestQueue TEST.UpdateValuesQueue
-do
-  rabbitmqadmin declare queue name=$i
-done
-for i in TEST.AccessionDirectoryExchange TEST.AnonymousImageExchange TEST.ControlExchange TEST.ExtractedFileStatusExchange TEST.ExtractedFileVerifiedExchange TEST.ExtractFileExchange TEST.FatalLoggingExchange TEST.FileCollectionInfoExchange TEST.IdentifiableImageExchange TEST.IdentifiableSeriesExchange TEST.RequestExchange TEST.RequestInfoExchange TEST.TriggerUpdatesExchange
-do
-  rabbitmqadmin declare exchange name=$i type=direct
-done
+# RABBITGOESHERE
 kill -TERM `jobs -p`
 
 wget -O/smi/ctp.script https://github.com/SMI/SmiServices/blob/master/data/ctp/ctp-whitelist.script

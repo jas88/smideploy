@@ -2,6 +2,13 @@
 
 use strict;
 
+open my $sh, '<', 'dockerbits.sh' or die "dockerbits.sh:$!\n";
+my $l='';
+while($l !~ /RABBITGOESHERE/) {
+	print $l;
+	$l=<$sh>;
+}
+$l=<$sh>;
 my (%e,%q);
 while(<>) {
   next unless /\s*(.+):\s*['"](.+)['"]/;
@@ -20,4 +27,9 @@ foreach (sort keys %q) {
 foreach (sort keys %e) {
   my $type=$_=~/control/i ? 'topic':'direct';
   print "rabbitmqadmin exchange declare name=$_ type=$type\n";
+}
+
+while(defined $l) {
+	print $l;
+	$l=<$sh>;
 }
