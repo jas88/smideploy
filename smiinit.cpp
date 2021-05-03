@@ -80,6 +80,11 @@ static int init(const char *conffile, const char **env) {
         fprintf(stderr, "Missing or invalid config.yaml\n");
         return 1;
     }
+    if (config["env"] && config["env"].IsMap()) {
+        for(YAML::const_iterator it=config["env"].begin();it!=config["env"].end();++it) {
+            setenv(it->first.as<std::string>().c_str(),it->second.as<std::string>().c_str(),1);
+        }
+    }
     if (!config["jobs"] || !config["jobs"].IsSequence()) {
         fprintf(stderr, "No jobs configured in %s\n", conffile);
         return 1;
