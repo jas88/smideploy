@@ -131,7 +131,7 @@ EOF
 add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/prod bionic main"
 add-apt-repository -u "deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main"
 apt-get update
-ACCEPT_EULA=Y apt-get install -y --no-install-recommends dotnet-runtime-2.2 rabbitmq-server mssql-tools mariadb-server default-jre-headless mongodb-org redis-server
+ACCEPT_EULA=Y apt-get install -y --no-install-recommends libtinfo-dev libtinfo6 rabbitmq-server mssql-tools mariadb-server default-jre-headless mongodb-org redis-server
 apt-get install -y --no-install-recommends mssql-server
 MSSQL_SA_PASSWORD="YourStrong\!Passw0rd" /opt/mssql/bin/sqlservr --pid 3 --setup --reset-sa-password --accept-eula
 
