@@ -5,9 +5,9 @@ apt-get install -y --no-install-recommends software-properties-common gnupg2
 ## Team RabbitMQ's main signing key
 apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
 ## Cloudsmith: modern Erlang repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | apt-key add -
+wget -qO- https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | apt-key add -
 ## Cloudsmith: RabbitMQ repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | apt-key add -
+wget -qO- https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | apt-key add -
 
 apt-key add <<EOK
 -----BEGIN PGP PUBLIC KEY BLOCK-----
