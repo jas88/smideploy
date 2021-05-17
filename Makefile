@@ -15,12 +15,12 @@ publish:	docker
 	buildah commit "$(ctr1)" "jas88/smi"
 	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 
-docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp
+docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script
 	curl -L https://github.com/SMI/SmiServices/releases/download/$(SMIV)/smi-services-$(SMIV)-linux-x64.tgz | tar xzf -
 	$(eval ctr1:=$(shell buildah from docker://docker.io/debian:latest))
 	buildah copy "$(ctr1)" smiinit /bin/
 	buildah copy "$(ctr1)" $(HOME)/rdmp-cli /rdmp-cli
-	buildah copy "$(ctr1)" $(JARS) smi-services-$(SMIV)-linux-x64/ /smi
+	buildah copy "$(ctr1)" $(JARS) ctp-whitelist.script smi-services-$(SMIV)-linux-x64/ /smi
 	buildah run "$(ctr1)" -- bash < dockerbits.sh 2>&1 | tee dockerbuild.log
 	buildah config --cmd "/bin/smiinit -c /smi -f /smi.yaml" "$(ctr1)"
 
@@ -40,6 +40,8 @@ ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar:	ctpanonymiser-$(SMIV).zip
 smi-nerd-$(SMIV).jar:
 	wget https://github.com/SMI/SmiServices/releases/download/$(SMIV)/smi-nerd-$(SMIV).jar
 
+ctp-whitelist.script:
+	wget https://raw.githubusercontent.com/SMI/SmiServices/$(SMIV)/data/ctp/ctp-whitelist.script
 
 smiinit:	smiinit.cpp yaml-cpp/build/libyaml-cpp.a
 ifeq ($(UNAME), Darwin)
@@ -53,7 +55,7 @@ yaml-cpp/build/libyaml-cpp.a:
 	cd yaml-cpp/build && cmake .. && $(MAKE)
 
 clean:
-	$(RM) $(BINS)
+	$(RM) $(BINS) ctp-whitelist.script
 
 distclean:	clean
 	$(RM) -r yaml-cpp/build

@@ -176,7 +176,6 @@ chmod +x /bin/rabbitmqadmin
 # RABBITGOESHERE
 kill -TERM `jobs -p`
 
-wget -O/smi/ctp.script https://github.com/SMI/SmiServices/blob/master/data/ctp/ctp-whitelist.script
 cat > /smi.yaml <<EOY
 jobs:
 - "/opt/mssql/bin/sqlservr"
