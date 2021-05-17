@@ -137,6 +137,24 @@ MSSQL_SA_PASSWORD="YourStrong\!Passw0rd" /opt/mssql/bin/sqlservr --pid 3 --setup
 
 /opt/mssql/bin/sqlservr &
 sleep 10
+
+# Disable irrelenvant .Net L16n to avoid extra dependencies or a coredump from RDMP
+cat > /rdmp-cli/rdmp.runtimeconfig.json <<EOJ
+{
+    "runtimeOptions": {
+        "configProperties": {
+            "System.Globalization.Invariant": true
+        },
+	    "tfm": "net5.0",
+	    "includedFrameworks": [
+	      {
+	        "name": "Microsoft.NETCore.App",
+	        "version": "5.0.3"
+	      }
+	    ]
+    }
+}
+EOJ
 ./rdmp-cli/rdmp install localhost TEST_ -u sa -p "YourStrong\!Passw0rd"
 kill -TERM `jobs -p`
 
