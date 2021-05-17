@@ -137,7 +137,7 @@ MSSQL_SA_PASSWORD="YourStrong\!Passw0rd" /opt/mssql/bin/sqlservr --pid 3 --setup
 
 /opt/mssql/bin/sqlservr &
 sleep 10
-dotnet /rdmp-cli/rdmp.dll install localhost TEST_ -u sa -p "YourStrong\!Passw0rd"
+./rdmp-cli/rdmp install localhost TEST_ -u sa -p "YourStrong\!Passw0rd"
 kill -TERM `jobs -p`
 
 mkdir -p /data/db
