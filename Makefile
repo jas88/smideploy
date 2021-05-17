@@ -6,6 +6,8 @@ CXXFLAGS	:= -Wall -Wextra -O2 --std=c++11 -Iyaml-cpp/include
 
 UNAME	:= $(shell uname)
 
+.PHONY:	list clean distclean
+
 all:	$(BINS)
 
 publish:	docker
