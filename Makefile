@@ -1,6 +1,6 @@
 SMIV	:= v3.0.2
 
-JARS	:= extractorcli-1.0.0/ExtractorCL-portable-1.0.0.jar ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar smi-nerd-$(SMIV).jar
+JARS	:= ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar smi-nerd-$(SMIV).jar
 BINS	:=	smiinit
 CXXFLAGS	:= -Wall -Wextra -O2 --std=c++11 -Iyaml-cpp/include
 
@@ -31,12 +31,6 @@ $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 rdmp-cli-linux-x64.zip:
 	wget https://github.com/HicServices/RDMP/releases/download/v5.0.0/rdmp-cli-linux-x64.zip
 
-extractorcli-$(SMIV).zip:
-	wget https://github.com/SMI/SmiServices/releases/download/$(SMIV)/extractorcli-$(SMIV).zip
-
-extractorcli-1.0.0/ExtractorCL-portable-1.0.0.jar:	extractorcli-$(SMIV).zip
-	[ -e $@ ] || unzip -DD $<
-	
 ctpanonymiser-$(SMIV).zip:
 	wget https://github.com/SMI/SmiServices/releases/download/$(SMIV)/ctpanonymiser-$(SMIV).zip
 
