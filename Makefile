@@ -1,4 +1,4 @@
-SMIV	:= v1.15.1
+SMIV	:= v3.0.2
 
 JARS	:= extractorcli-1.0.0/ExtractorCL-portable-1.0.0.jar ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar smi-nerd-$(SMIV).jar
 BINS	:=	smiinit
