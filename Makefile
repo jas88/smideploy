@@ -29,7 +29,7 @@ $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 	chmod +x $(HOME)/rdmp-cli/rdmp
 
 rdmp-cli-linux-x64.zip:
-	wget https://github.com/HicServices/RDMP/releases/download/v4.2.4/rdmp-cli-linux-x64.zip
+	wget https://github.com/HicServices/RDMP/releases/download/v5.0.0/rdmp-cli-linux-x64.zip
 
 extractorcli-$(SMIV).zip:
 	wget https://github.com/SMI/SmiServices/releases/download/$(SMIV)/extractorcli-$(SMIV).zip
