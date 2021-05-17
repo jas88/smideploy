@@ -1,6 +1,14 @@
 set -e
 apt-get update
 apt-get install -y --no-install-recommends software-properties-common gnupg2
+
+## Team RabbitMQ's main signing key
+apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
+## Cloudsmith: modern Erlang repository
+curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | apt-key add -
+## Cloudsmith: RabbitMQ repository
+curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | apt-key add -
+
 apt-key add <<EOK
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.7 (GNU/Linux)
@@ -106,8 +114,20 @@ G4vQ/QbzucK77Q==
 EOK
 add-apt-repository -u "deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/prod bionic main"
 echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" > /etc/apt/sources.list.d/mongodb-org-4.4.list
-add-apt-repository "deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang"
-add-apt-repository "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
+
+## Add apt repositories maintained by Team RabbitMQ
+tee /etc/apt/sources.list.d/rabbitmq.list <<EOF
+## Provides modern Erlang/OTP releases
+##
+deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
+deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
+
+## Provides RabbitMQ
+##
+deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
+deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
+EOF
+
 add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/prod bionic main"
 add-apt-repository -u "deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/mssql-server-2019 bionic main"
 apt-get update
