@@ -26,7 +26,7 @@ foreach (sort keys %q) {
 }
 foreach (sort keys %e) {
   my $type=$_=~/control/i ? 'topic':'direct';
-  print "rabbitmqadmin exchange declare name=$_ type=$type\n";
+  print "rabbitmqadmin declare exchange name=$_ type=$type\n";
 }
 
 while(defined $l) {
