@@ -155,6 +155,7 @@ cat > /rdmp-cli/rdmp.runtimeconfig.json <<EOJ
     }
 }
 EOJ
+ln -f /rdmp-cli/rdmp.runtimeconfig.json /smi/smi.runtimeconfig.json
 ./rdmp-cli/rdmp install localhost TEST_ -u sa -p "YourStrong\!Passw0rd"
 kill -TERM `jobs -p`
 
