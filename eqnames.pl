@@ -22,7 +22,7 @@ while(<>) {
 }
 
 foreach (sort keys %q) {
-  print "rabbitmqadmin queue name=$_\n";
+  print "rabbitmqadmin declare queue name=$_\n";
 }
 foreach (sort keys %e) {
   my $type=$_=~/control/i ? 'topic':'direct';
