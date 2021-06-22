@@ -15,13 +15,13 @@ publish:	docker
 	buildah commit "$(ctr1)" "jas88/smi"
 	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 
-docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script
+docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script smi-services-v3.0.2-linux-x64/default.yaml
 	curl -L https://github.com/SMI/SmiServices/releases/download/$(SMIV)/smi-services-$(SMIV)-linux-x64.tgz | tar xzf -
 	$(eval ctr1:=$(shell buildah from docker://docker.io/debian:latest))
 	buildah copy "$(ctr1)" smiinit /bin/
 	buildah copy "$(ctr1)" $(HOME)/rdmp-cli /rdmp-cli
 	buildah copy "$(ctr1)" $(JARS) ctp-whitelist.script smi-services-$(SMIV)-linux-x64/ /smi
-	buildah run "$(ctr1)" -- bash < dockerbits.sh 2>&1 | tee dockerbuild.log
+	./eqnames.pl < smi-services-v3.0.2-linux-x64/default.yaml | buildah run "$(ctr1)" -- bash 2>&1 | tee dockerbuild.log
 	buildah config --cmd "/bin/smiinit -c /smi -f /smi.yaml" "$(ctr1)"
 
 $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
