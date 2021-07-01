@@ -198,4 +198,4 @@ jobs:
 - "/smi/smi update-values -y /smi.yaml"
 
 EOY
-sed -e 's/c:\\temp/\/tmp/gi' /smi/default.yaml >> /smi.yaml
+sed -e 's/c:\\temp/\/tmp/gi' /smi/default.yaml | tail -n +2 >> /smi.yaml
