@@ -194,7 +194,6 @@ jobs:
 - "/smi/smi mongodb-populator -y /smi.yaml"
 - "/smi/smi cohort-packager -y /smi.yaml"
 - "/smi/smi file-copier -y /smi.yaml"
-- "/smi/smi dicom-reprocessor -y /smi.yaml"
 - "/smi/smi identifier-mapper -y /smi.yaml"
 - "/smi/smi update-values -y /smi.yaml"
 
