@@ -17,7 +17,7 @@ publish:	docker
 
 docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script smi-services-v3.0.2-linux-x64/default.yaml
 	curl -L https://github.com/SMI/SmiServices/releases/download/$(SMIV)/smi-services-$(SMIV)-linux-x64.tgz | tar xzf -
-	sed -i -e 's:MappingTable$$:smi.MappingTable:' smi-services-$(SMIV)-linux-x64/default.yaml
+	sed -i -e 's:MappingTable'"'"':smi.MappingTable'"'"':' smi-services-$(SMIV)-linux-x64/default.yaml
 	sed -i -e 's/CTPAnonymiserOptions:/CTPAnonymiserOptions:\n    SRAnonTool: '\''\/smi\/dummy.sh'\''/' smi-services-$(SMIV)-linux-x64/default.yaml
 	touch smi-services-$(SMIV)-linux-x64/dummy.sh
 	$(eval ctr1:=$(shell buildah from docker://docker.io/debian:latest))
