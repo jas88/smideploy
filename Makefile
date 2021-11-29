@@ -19,7 +19,7 @@ minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar
 	mkdir -p smi
 	touch smi/dummy.sh
 	(cd smi-services-v4.0.0-linux-x64;tar cf - .) | (cd smi ; tar xf -)
-	tar c --uid 0 --gid 0 -f - smi/ | buildah build -t smidocker
+	tar c -f - smi/ | buildah build -t smidocker
 
 smi/smiinit.sh:  smi-services-v$(SMIV)-linux-x64/default.yaml
 	mkdir -p smi
