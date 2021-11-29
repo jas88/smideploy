@@ -16,6 +16,8 @@ publish:	docker
 	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 
 minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar
+	mkdir -p smi
+	touch smi/dummy.sh
 	(cd smi-services-v4.0.0-linux-x64;tar cf - .) | (cd smi ; tar xf -)
 	tar c --uid 0 --gid 0 -f - smi/ | buildah build -t smidocker
 
@@ -55,7 +57,7 @@ smi/ctp-whitelist.script: ctp-whitelist.script
 	ln -f $< $@
 
 smi-services-v$(SMIV)-linux-x64/default.yaml:
-	curl -L https://github.com/SMI/SmiServices/releases/download/$(SMIV)/smi-services-$(SMIV)-linux-x64.tgz | tar xzf -
+	curl -L https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-services-v$(SMIV)-linux-x64.tgz | tar xzf -
 	sed -i -e 's:MappingTable'"'"':smi.MappingTable'"'"':' smi-services-$(SMIV)-linux-x64/default.yaml
 	sed -i -e 's/CTPAnonymiserOptions:/CTPAnonymiserOptions:\n    SRAnonTool: '\''\/smi\/dummy.sh'\''/' smi-services-$(SMIV)-linux-x64/default.yaml
 
