@@ -1,0 +1,27 @@
+name: Build Image
+on: [push]
+
+jobs:
+  build:
+    name: Build and push image
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - run: make minidocker
+      
+      - name: Log in to the GitHub Container registry
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io/jas88
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to GitHub Container Repository
+        id: push-to-ghcr
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: smidocker
+          tags: latest
+          registry: ghcr.io/jas88
