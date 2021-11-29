@@ -19,7 +19,9 @@ minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar
 	mkdir -p smi
 	touch smi/dummy.sh
 	(cd smi-services-v4.0.0-linux-x64;tar cf - .) | (cd smi ; tar xf -)
-	tar c -f - smi/ | buildah bud -t smidocker
+	$(eval ctr1:=$(shell buildah from --name smidocker docker://docker.io/adoptopenjdk/openjdk11:debian-jre))	
+	tar c -f - smi/ | buildah run "$(ctr1)" sh -c "tar xof - && apt-get update && apt-get install libicu63"
+	buildah commit "$(ctr1)" "smidocker"
 
 smi/smiinit.sh:  smi-services-v$(SMIV)-linux-x64/default.yaml
 	mkdir -p smi
