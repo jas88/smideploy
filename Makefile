@@ -79,7 +79,7 @@ $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 rdmp-cli-linux-x64.zip:
 	wget https://github.com/HicServices/RDMP/releases/download/v5.0.0/rdmp-cli-linux-x64.zip
 
-ctpanonymiser-$(SMIV).zip:
+ctpanonymiser-v$(SMIV).zip:
 	wget https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/ctpanonymiser-v$(SMIV).zip
 
 ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar:	ctpanonymiser-v$(SMIV).zip
