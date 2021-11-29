@@ -58,16 +58,16 @@ smi/ctp-whitelist.script: ctp-whitelist.script
 
 smi-services-v$(SMIV)-linux-x64/default.yaml:
 	curl -L https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-services-v$(SMIV)-linux-x64.tgz | tar xzf -
-	sed -i -e 's:MappingTable'"'"':smi.MappingTable'"'"':' smi-services-$(SMIV)-linux-x64/default.yaml
-	sed -i -e 's/CTPAnonymiserOptions:/CTPAnonymiserOptions:\n    SRAnonTool: '\''\/smi\/dummy.sh'\''/' smi-services-$(SMIV)-linux-x64/default.yaml
+	sed -i -e 's:MappingTable'"'"':smi.MappingTable'"'"':' smi-services-v$(SMIV)-linux-x64/default.yaml
+	sed -i -e 's/CTPAnonymiserOptions:/CTPAnonymiserOptions:\n    SRAnonTool: '\''\/smi\/dummy.sh'\''/' smi-services-v$(SMIV)-linux-x64/default.yaml
 
 
 docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script smi-services-v$(SMIV)-linux-x64/default.yaml
-	touch smi-services-$(SMIV)-linux-x64/dummy.sh
+	touch smi-services-v$(SMIV)-linux-x64/dummy.sh
 	$(eval ctr1:=$(shell buildah from docker://docker.io/debian:latest))
 	buildah copy "$(ctr1)" smiinit /bin/
 	buildah copy "$(ctr1)" $(HOME)/rdmp-cli /rdmp-cli
-	buildah copy "$(ctr1)" $(JARS) ctp-whitelist.script smi-services-$(SMIV)-linux-x64/ /smi
+	buildah copy "$(ctr1)" $(JARS) ctp-whitelist.script smi-services-v$(SMIV)-linux-x64/ /smi
 	./eqnames.pl < smi-services-v3.0.2-linux-x64/default.yaml | buildah run "$(ctr1)" -- bash 2>&1 | tee dockerbuild.log
 	buildah config --cmd "/bin/smiinit -c /smi -f /smi.yaml" "$(ctr1)"
 
@@ -88,7 +88,7 @@ smi-nerd-v$(SMIV).jar:
 	wget https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-nerd-v$(SMIV).jar
 
 ctp-whitelist.script:
-	wget https://raw.githubusercontent.com/SMI/SmiServices/$(SMIV)/data/ctp/ctp-whitelist.script
+	wget https://raw.githubusercontent.com/SMI/SmiServices/v$(SMIV)/data/ctp/ctp-whitelist.script
 
 smiinit:	smiinit.cpp yaml-cpp/build/libyaml-cpp.a
 ifeq ($(UNAME), Darwin)
