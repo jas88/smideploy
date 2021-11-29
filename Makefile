@@ -25,6 +25,7 @@ smi/smiinit.sh:  smi-services-v$(SMIV)-linux-x64/default.yaml
 	mkdir -p smi
 	cp smiinit.sh $@
 	sed -e 's/c:\\temp/\/tmp/gi' $< | tail -n +2 >> $@
+	sed -i -e 's/TEST.//g' $@
 	sed -i -e 's/RabbitMqUserName: '\''guest'\''/RabbitMqUserName: '\''\$$(<\/run\/secrets\/rabbituser)'\''/g' $@
 	sed -i -e 's/RabbitMqHostName: '\''localhost'\''/RabbitMqHostName: '\''\$$(<\/run\/secrets\/rabbithost)'\''/g' $@
 	sed -i -e 's/RabbitMqHostPort: 5672/RabbitMqHostPort: \$$(<\/run\/secrets\/rabbitport)/g' $@
