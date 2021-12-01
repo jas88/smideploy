@@ -39,6 +39,8 @@ smi/smiinit.sh:  smi-services-v$(SMIV)-linux-x64/default.yaml
 	sed -i -e 's/CatalogueConnectionString: '\''[^'\'']*'\''/CatalogueConnectionString: '\''\$$(<\/run\/secrets\/cscatalogue)'\''/g' $@
 	sed -i -e 's/DataExportConnectionString: '\''[^'\'']*'\''/DataExportConnectionString: '\''\$$(<\/run\/secrets\/csexport)'\''/g' $@
 	sed -i -e 's/MappingConnectionString: '\''[^'\'']*'\''/MappingConnectionString: '\''\$$(<\/run\/secrets\/csmapping)'\''/g' $@
+	sed -i -e 's/LogsRoot: '\'\''/LogsRoot: '\''\/logs'\''/g' $@
+	sed -i -e 's/Root: '\''\/tmp'\''/Root: '\''\/data'\''/g' $@
 	echo EOS >> $@
 	echo exec /smi/smiinit -c /smi -f /smi/smi.yaml >> $@
 	chmod +x $@

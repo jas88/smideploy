@@ -46,3 +46,51 @@ With the appropriate volume mappings for data persistence, this image could also
 
 - If publishing:
   - Set DOCKERPW to Dockerhub token, DOCKERU to Dockerhub username and run "make publish"
+
+## For leaf usage (as in HIC)
+
+- Only the SMI microservices are contained in the Docker image produced
+- Rabbit must be configured properly, along with an MS SQL server
+- Configure the server addresses and credentials via the following Docker `secrets':
+  - cscatalogue
+  - csexport
+  - csmapping
+  - mongohost
+  - mongopass
+  - mongoport
+  - mongouser
+  - rabbithost
+  - rabbitpass
+  - rabbitport
+  - rabbituser
+- The first three are MS SQL connection strings; the Mongo and Rabbit ones should be self-explanatory.
+- Rabbit will need the following queues/exchanges:
+  - AccessionDirectoryExchange
+  - AccessionDirectoryQueue
+  - AnonymousImageExchange
+  - AnonymousImageQueue
+  - ControlExchange
+  - DLQueue
+  - ExtractFileAnonQueue
+  - ExtractFileExchange
+  - ExtractFileIdentQueue
+  - ExtractedFileNoVerifyQueue
+  - ExtractedFileStatusExchange
+  - ExtractedFileToVerifyQueue
+  - ExtractedFileVerifiedExchange
+  - ExtractedFileVerifiedQueue
+  - FatalLoggingExchange
+  - FileCollectionInfoExchange
+  - FileCollectionInfoQueue
+  - IdentifiableImageExchange
+  - IdentifiableImageQueue
+  - IdentifiableSeriesExchange
+  - MongoImageQueue
+  - MongoSeriesQueue
+  - RequestExchange
+  - RequestInfoExchange
+  - RequestInfoQueue
+  - RequestQueue
+  - TriggerUpdatesExchange
+  - UpdateValuesQueue
+- All exchanges should be type 'direct' except those containing the word 'control', which should be of type 'topic'. 
