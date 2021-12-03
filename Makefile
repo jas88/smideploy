@@ -15,7 +15,7 @@ publish:	docker
 	buildah commit "$(ctr1)" "jas88/smi"
 	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 
-minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar
+minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/smi-nerd-v$(SMIV).jar smi/ctp-whitelist.script
 	mkdir -p smi
 	touch smi/dummy.sh
 	(cd smi-services-v4.0.0-linux-x64;tar cf - .) | (cd smi ; tar xf -)
