@@ -15,7 +15,7 @@ publish:	docker
 	buildah commit "$(ctr1)" "jas88/smi"
 	buildah push jas88/smi docker://docker.io/jas88/smi:latest
 
-minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/smi-nerd-v$(SMIV).jar smi/ctp-whitelist.script
+minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/smi-nerd-v$(SMIV).jar smi/ctp-whitelist.script smi/eng.traineddata.gz
 	mkdir -p smi
 	touch smi/dummy.sh
 	(cd smi-services-v4.0.0-linux-x64;tar cf - .) | (cd smi ; tar xf -)
@@ -42,6 +42,7 @@ smi/smiinit.sh:  smi-services-v$(SMIV)-linux-x64/default.yaml
 	sed -i -e 's/MappingConnectionString: '\''[^'\'']*'\''/MappingConnectionString: '\''\$$(<\/run\/secrets\/csmapping)'\''/g' $@
 	sed -i -e 's/LogsRoot: '\'\''/LogsRoot: '\''\/logs'\''/g' $@
 	sed -i -e 's/Root: '\''\/tmp'\''/Root: '\''\/data'\''/g' $@
+	sed -i -e 's/DataDirectory: '\'\''/DataDirectory: '\''\/data\/identifiablerules'\''/g' $@
 	echo EOS >> $@
 	echo exec /smi/smiinit -c /smi -f /smi/smi.yaml >> $@
 	chmod +x $@
@@ -61,6 +62,9 @@ smi/smi-nerd-v$(SMIV).jar: smi-nerd-v$(SMIV).jar
 smi/ctp-whitelist.script: ctp-whitelist.script
 	mkdir -p smi
 	ln -f $< $@
+
+smi/eng.traineddata.gz:
+	curl -sL https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata | gzip -9 > $@
 
 smi-services-v$(SMIV)-linux-x64/default.yaml:
 	curl -L https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-services-v$(SMIV)-linux-x64.tgz | tar xzf -

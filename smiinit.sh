@@ -5,6 +5,8 @@ export SMI_LOGS_ROOT=/logs
 [ -d /data ] || echo "FATAL: Data volume missing!"
 [ -d /data ] || exit
 [ -d /logs ] || echo "WARNING: Log volume missing, discarding logs!"
+mkdir -p /data/identifiablerules/tessdata
+[ -e /data/identifiablerules/tessdata/eng.traineddata ] || zcat /smi/eng.traineddata.gz > /data/identifiablerules/tessdata/eng.traineddata
 mkdir -p /logs
 touch /logs/.writetest || echo "FATAL: Logs not writable"
 touch /logs/.writetest || exit
