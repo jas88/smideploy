@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 cat << EOS > /smi/smi.yaml
+jobs:
 - "/usr/bin/java -jar /smi/smi-nerd-v3.0.2.jar"
 - "/usr/bin/java -jar /smi/CTPAnonymiser-portable-1.0.0.jar -a /smi/ctp-whitelist.script -y /smi/smi.yaml"
 - "/smi/smi dicom-relational-mapper -y /smi/smi.yaml"
