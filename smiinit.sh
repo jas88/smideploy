@@ -1,5 +1,13 @@
 #!/bin/sh
 set -e
+export SMI_ROOT=/smi
+export SMI_LOGS_ROOT=/logs
+[ -d /data ] || echo "FATAL: Data volume missing!"
+[ -d /data ] || exit
+[ -d /logs ] || echo "WARNING: Log volume missing, discarding logs!"
+mkdir -p /logs
+touch /logs/.writetest || echo "FATAL: Logs not writable"
+touch /logs/.writetest || exit
 cat << EOS > /smi/smi.yaml
 jobs:
 - "/opt/java/openjdk/bin/java -jar /smi/smi-nerd-v4.0.0.jar"
