@@ -1,4 +1,5 @@
-SMIV	:= 4.0.0
+SMIV	:= 5.0.1
+RDMPV := 7.0.12
 
 JARS	:= ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar smi-nerd-v$(SMIV).jar
 BINS	:=	smiinit
@@ -86,7 +87,7 @@ $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 	chmod +x $(HOME)/rdmp-cli/rdmp
 
 rdmp-cli-linux-x64.zip:
-	wget https://github.com/HicServices/RDMP/releases/download/v5.0.0/rdmp-cli-linux-x64.zip
+	wget https://github.com/HicServices/RDMP/releases/download/v$(RDMPV)/rdmp-cli-linux-x64.zip
 
 ctpanonymiser-v$(SMIV).zip:
 	wget https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/ctpanonymiser-v$(SMIV).zip
