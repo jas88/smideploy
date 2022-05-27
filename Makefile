@@ -11,11 +11,6 @@ UNAME	:= $(shell uname)
 
 all:	$(BINS)
 
-publish:	docker
-	echo $(DOCKERPW) | buildah login -u $(DOCKERU) --password-stdin docker.io
-	buildah commit "$(ctr1)" "jas88/smi"
-	buildah push jas88/smi docker://docker.io/jas88/smi:latest
-
 minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/smi-nerd-v$(SMIV).jar smi/ctp-whitelist.script smi/eng.traineddata.gz
 	mkdir -p smi
 	touch smi/dummy.sh
@@ -81,6 +76,7 @@ docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script smi-services-
 	buildah copy "$(ctr1)" $(JARS) ctp-whitelist.script smi-services-v$(SMIV)-linux-x64/ /smi
 	./eqnames.pl < smi-services-v3.0.2-linux-x64/default.yaml | buildah run "$(ctr1)" -- bash 2>&1 | tee dockerbuild.log
 	buildah config --cmd "/bin/smiinit -c /smi -f /smi.yaml" "$(ctr1)"
+	buildah commit "$(ctr1)" "smifull"
 
 $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 	[ -e $@ ] || unzip -DD -d $(HOME)/rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"
