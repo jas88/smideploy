@@ -13,9 +13,10 @@ jobs:
           submodules: true
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1
-      - run: |
+      - name: Build containers
+        run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-          make minidocker
+          make minidocker docker
       
       - name: Log in to the GitHub Container registry
         uses: redhat-actions/podman-login@v1
