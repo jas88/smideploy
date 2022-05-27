@@ -25,7 +25,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push mini-container to GitHub Container Repository
-        id: push-to-ghcr
+        id: push-mini-to-ghcr
         uses: redhat-actions/push-to-registry@v2
         with:
           image: smidocker
@@ -33,7 +33,7 @@ jobs:
           registry: ghcr.io/jas88
 
       - name: Push full stack container to GitHub Container Repository
-        id: push-to-ghcr
+        id: push-full-to-ghcr
         uses: redhat-actions/push-to-registry@v2
         with:
           image: smifull
