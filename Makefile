@@ -79,7 +79,7 @@ docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script smi-services-
 	buildah commit "$(ctr1)" "smifull"
 
 $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
-	[ -e $@ ] || unzip -DD -d $(HOME)/rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"
+	[ -e $@ ] || unzip -DD -d $(HOME)/rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"  "*\\Terminal.Gui.resources.dll"
 	chmod +x $(HOME)/rdmp-cli/rdmp
 
 rdmp-cli-linux-x64.zip:
