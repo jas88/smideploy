@@ -106,7 +106,7 @@ endif
 
 yaml-cpp/build/libyaml-cpp.a:
 	mkdir -p yaml-cpp/build
-	cd yaml-cpp/build && cmake .. && $(MAKE)
+	cd yaml-cpp/build && cmake -DCMAKE_CXX_COMPILER_LAUNCHER=ccache .. && $(MAKE)
 
 clean:
 	$(RM) $(BINS) ctp-whitelist.script
