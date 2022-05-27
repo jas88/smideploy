@@ -1,6 +1,6 @@
 set -e
 apt-get update
-apt-get install -y --no-install-recommends wget software-properties-common gnupg2
+apt-get install -y --no-install-recommends wget software-properties-common gnupg2 unixodbc
 
 ## Team RabbitMQ's main signing key
 apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
