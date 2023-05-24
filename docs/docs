@@ -1,0 +1,32 @@
+Appendix A – full smiServices set-up script 
+ 
+First, download and unpack the RDMP and SmiServices tools from Github, along with Mongo and MySQL. What location on Github? 
+ 
+Assumptions – substitute according to your own environment/choices: 
+Everything underneath /imaging: 
+/imaging/bin – storage for SMI and RDMP tools 
+/imaging/conf – configuration files for SMI and RDMP 
+/imaging/db – mount point for faster (SSD/RAID10) storage for databases 
+/imaging/db/sql 
+/imaging/db/mongo 
+/imaging/data – main bulk storage area for DICOM files 
+MySQL databases will be: smi smi_isolation 
+RabbitMQ will be required if using the SMI extraction pipeline – we aren’t, so that isn’t yet documented here. These instructions currently deliver only the load/indexing stage. 
+ 
+The script below will create appropriate tables, an smi user account in MySQL with access to them, and set RDMP up accordingly.  
+ 
+TODO: 
+Set up ExternalDatabaseServer for smi_isolation 
+GuidDatabaseNamer for RAW/STAGING? 
+ 
+ 
+ 
+Copy the file ‘default.yaml’ from the SMI distribution to /imaging/conf/smi.yaml and make the following changes: 
+LogsRoot: ‘/imaging/logs’ 
+FileSystemRoot: ‘/imaging’ 
+ExtractRoot: ‘/imaging’ 
+YamlDir: ‘/imaging/conf/rdmp’ 
+LoadMetadataId: (ID from: ‘basename /imaging/conf/rdmp/LoadMetadata/* .yaml’) 
+ 
+ 
+ 
