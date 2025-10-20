@@ -29,8 +29,11 @@ MySQL databases will be:
 - These instructions currently deliver only the load/indexing stage, not an extraction pipeline.
  
 ## Installation steps
+
+* Download the files in this directory (currently install.sh and schema.sql), make install.sh executable.
  
 ``
+chmod +x install.sh
 ./install.sh
 ``
  
