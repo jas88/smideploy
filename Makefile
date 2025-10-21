@@ -63,7 +63,7 @@ smi/eng.traineddata.gz:
 	curl -sL https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata | gzip -9 > $@
 
 smi-services-v$(SMIV)-linux-x64/default.yaml:
-	curl -L https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-services-v$(SMIV)-linux-x64.tgz | tar xzf -
+	curl -sL https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-services-v$(SMIV)-linux-x64.tgz | tar xzf -
 	sed -i -e 's:MappingTable'"'"':smi.MappingTable'"'"':' smi-services-v$(SMIV)-linux-x64/default.yaml
 	sed -i -e 's/CTPAnonymiserOptions:/CTPAnonymiserOptions:\n    SRAnonTool: '\''\/smi\/dummy.sh'\''/' smi-services-v$(SMIV)-linux-x64/default.yaml
 
