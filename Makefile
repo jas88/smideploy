@@ -14,7 +14,7 @@ all:	$(BINS)
 minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/smi-nerd-v$(SMIV).jar smi/ctp-whitelist.script smi/eng.traineddata.gz
 	mkdir -p smi
 	touch smi/dummy.sh
-	(cd smi-services-v4.0.0-linux-x64;tar cf - .) | (cd smi ; tar xf -)
+	(cd smi-services-v$(SMIV)-linux-x64;tar cf - .) | (cd smi ; tar xf -)
 	$(eval ctr1:=$(shell buildah from --name smidocker docker://docker.io/adoptopenjdk/openjdk11:debian-jre))	
 	tar c -f - smi/ | buildah run "$(ctr1)" sh -c "tar xof - && apt-get update && apt-get install libicu63"
 	buildah config --cmd "/smi/smiinit.sh" "$(ctr1)"
@@ -74,7 +74,7 @@ docker: smiinit $(JARS) $(HOME)/rdmp-cli/rdmp ctp-whitelist.script smi-services-
 	buildah copy "$(ctr1)" smiinit /bin/
 	buildah copy "$(ctr1)" $(HOME)/rdmp-cli /rdmp-cli
 	buildah copy "$(ctr1)" $(JARS) ctp-whitelist.script smi-services-v$(SMIV)-linux-x64/ /smi
-	./eqnames.pl < smi-services-v3.0.2-linux-x64/default.yaml | buildah run "$(ctr1)" -- bash 2>&1 | tee dockerbuild.log
+	./eqnames.pl < smi-services-v$(SMIV)-linux-x64/default.yaml | buildah run "$(ctr1)" -- bash 2>&1 | tee dockerbuild.log
 	buildah config --cmd "/bin/smiinit -c /smi -f /smi.yaml" "$(ctr1)"
 	buildah commit "$(ctr1)" "smifull"
 
