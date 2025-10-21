@@ -1,4 +1,4 @@
-SMIV	:= 5.2.0
+SMIV	:= 5.1.3
 RDMPV := 7.0.12
 
 JARS	:= ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar smi-nerd-v$(SMIV).jar
