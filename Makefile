@@ -16,7 +16,7 @@ minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/
 	touch smi/dummy.sh
 	(cd smi-services-v$(SMIV)-linux-x64 && tar cf - .) | (cd smi && tar xf -)
 	$(eval ctr1:=$(shell buildah from --name smidocker docker://docker.io/eclipse-temurin:11-jre))	
-	tar c -f - smi/ | buildah run "$(ctr1)" sh -c "tar xof - && apt-get update && apt-get install -y libicu72"
+	tar c -f - smi/ | buildah run "$(ctr1)" sh -c "tar xof - && apt-get update && apt-get install -y libicu-dev"
 	buildah config --cmd "/smi/smiinit.sh" "$(ctr1)"
 	buildah commit "$(ctr1)" "smidocker"
 
