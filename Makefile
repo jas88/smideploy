@@ -16,7 +16,7 @@ minidocker: smi/smiinit smi/smiinit.sh smi/CTPAnonymiser-portable-1.0.0.jar smi/
 	touch smi/dummy.sh
 	(cd smi-services-v$(SMIV)-linux-x64 && tar cf - .) | (cd smi && tar xf -)
 	$(eval ctr1:=$(shell buildah from --name smidocker docker://docker.io/eclipse-temurin:11-jre))	
-	tar c -f - smi/ | buildah run "$(ctr1)" sh -c "tar xof - && apt-get update && apt-get install libicu63"
+	tar c -f - smi/ | buildah run "$(ctr1)" sh -c "tar xof - && apt-get update && apt-get install -y libicu72"
 	buildah config --cmd "/smi/smiinit.sh" "$(ctr1)"
 	buildah commit "$(ctr1)" "smidocker"
 
@@ -83,19 +83,19 @@ $(HOME)/rdmp-cli/rdmp:	rdmp-cli-linux-x64.zip
 	chmod +x $(HOME)/rdmp-cli/rdmp
 
 rdmp-cli-linux-x64.zip:
-	wget https://github.com/HicServices/RDMP/releases/download/v$(RDMPV)/rdmp-cli-linux-x64.zip
+	wget -q https://github.com/HicServices/RDMP/releases/download/v$(RDMPV)/rdmp-cli-linux-x64.zip
 
 ctpanonymiser-v$(SMIV).zip:
-	wget https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/ctpanonymiser-v$(SMIV).zip
+	wget -q https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/ctpanonymiser-v$(SMIV).zip
 
 ctpanonymiser-1.0.0/CTPAnonymiser-portable-1.0.0.jar:	ctpanonymiser-v$(SMIV).zip
 	[ -e $@ ] || unzip -DD $<
 	
 smi-nerd-v$(SMIV).jar:
-	wget https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-nerd-v$(SMIV).jar
+	wget -q https://github.com/SMI/SmiServices/releases/download/v$(SMIV)/smi-nerd-v$(SMIV).jar
 
 ctp-whitelist.script:
-	wget https://raw.githubusercontent.com/SMI/SmiServices/v$(SMIV)/data/ctp/ctp-whitelist.script
+	wget -q https://raw.githubusercontent.com/SMI/SmiServices/v$(SMIV)/data/ctp/ctp-whitelist.script
 
 smiinit:	smiinit.cpp yaml-cpp/build/libyaml-cpp.a
 ifeq ($(UNAME), Darwin)
