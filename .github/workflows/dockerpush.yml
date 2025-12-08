@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
           fetch-depth: 0
@@ -20,6 +20,7 @@ jobs:
           make minidocker docker
       
       - name: Log in to the GitHub Container registry
+        if: startsWith(github.ref, 'refs/tags/')
         uses: redhat-actions/podman-login@v1
         with:
           registry: ghcr.io/jas88
@@ -27,6 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push mini-container to GitHub Container Repository
+        if: startsWith(github.ref, 'refs/tags/')
         id: push-mini-to-ghcr
         uses: redhat-actions/push-to-registry@v2
         with:
@@ -35,6 +37,7 @@ jobs:
           registry: ghcr.io/jas88
 
       - name: Push full stack container to GitHub Container Repository
+        if: startsWith(github.ref, 'refs/tags/')
         id: push-full-to-ghcr
         uses: redhat-actions/push-to-registry@v2
         with:
